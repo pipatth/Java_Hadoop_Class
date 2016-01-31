@@ -47,6 +47,9 @@ public class Elevator
             going_up = true;
         }
 
+        // unload passenger
+        unloadPassenger(current_floor);
+
     }
 
     // define boardPassenger(int floor) which adds a passenger destined for the indicated floor
@@ -63,8 +66,8 @@ public class Elevator
 
     }
 
-    // define exitPassenger() which let passenger(s) destined for that floor out
-    public void exitPassenger(int floor)
+    // define unloadPassenger() which let passenger(s) destined for that floor out
+    private void unloadPassenger(int floor)
     {
         // get the number of passengers who want to get out
         int passenger_out = stop_requested_n[floor - 1];

@@ -1,8 +1,5 @@
 package cscie55.hw1.elevator;
 
-/**
- * Created by pipat on 1/30/16.
- */
 public class Elevator
 {
     // define a constant for the number of floors
@@ -17,9 +14,6 @@ public class Elevator
 
     // define array for number of passenger destined for that floor
     int [] stop_requested_n = new int[7];
-
-    // define array for tracking whether a stop is needed for that floor
-    boolean [] stop_requested_flag = new boolean[7];
 
     // define move() method that modifies elevator's state
     public void move()
@@ -58,9 +52,6 @@ public class Elevator
         // update stop_requested_n array (add one)
         stop_requested_n[floor - 1]++;
 
-        // update stop_requested_flag array (change to true)
-        stop_requested_flag[floor - 1] = true;
-
         // update n_passengers
         n_passengers++;
 
@@ -74,9 +65,6 @@ public class Elevator
 
         // update stop_requested_n array (reset to zero)
         stop_requested_n[floor - 1] = 0;
-
-        // update stop_requested_flag array (change to false)
-        stop_requested_flag[floor - 1] = false;
 
         // update n_passengers
         n_passengers = n_passengers - passenger_out;

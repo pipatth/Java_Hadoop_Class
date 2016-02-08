@@ -3,18 +3,11 @@ package cscie55.hw1.elevator;
 public class Elevator
 {
     /* FIELDS */
-    // define a constant for the number of floors
-    public static final int FLOORS = 7;
-
-    // define current floor (start with ground floor) and direction of travel (going up)
-    private int current_floor = 1;
-    private boolean going_up = true;
-
-    // define number of passengers in the elevator
-    private int n_passengers;
-
-    // define array for number of passenger destined for that floor
-    private int [] stop_requested_n = new int[7];
+    public static final int FLOORS = 7;             // number of floors
+    private int current_floor = 1;                  // current floor (start with ground floor)
+    private boolean going_up = true;                // direction of travel (going up)
+    private int n_passengers;                       // number of passengers in the elevator
+    private int [] stop_requested_n = new int[7];   // array for number of passenger destined for that floor
 
     /* CONSTRUCTOR */
     public Elevator()
@@ -25,8 +18,7 @@ public class Elevator
     // define move() method that modifies elevator's state
     public void move()
     {
-        // modify current floor
-        // move up or down
+        // modify current floor (go up or down)
         if (going_up)
         {
             current_floor++;
@@ -37,13 +29,11 @@ public class Elevator
         }
 
         // modify direction of travel
-        // if top floor, has to go down
         if (current_floor == FLOORS)
         {
-            going_up = false;
+            going_up = false;                       // if top floor, has to go down)
         }
-        // if ground floor, has to go up
-        else if (current_floor == 1)
+        else if (current_floor == 1)                // if ground floor, has to go up
         {
             going_up = true;
         }

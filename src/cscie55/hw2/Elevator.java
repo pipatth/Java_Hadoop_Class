@@ -3,24 +3,12 @@ package cscie55.hw2;
 public class Elevator
 {
     /* FIELDS */
-    // define a constant for the number of floors
-    public static final int FLOORS = 7;
-
-    // define elevator capacity
-    public static final int CAPACITY = 10;
-
-    // define current floor (start with ground floor) and direction of travel (going up)
-    private int current_floor = 1;
-    private boolean going_up = true;
-
-    // define number of passengers in the elevator
-    private int n_passengers;
-
-    // define array for number of passenger destined for that floor
-    private int [] stop_requested_n = new int[7];
-
-    // define which building
-    private Building building = new Building();
+    public static final int CAPACITY = 10;          // elevator capacity
+    private int current_floor = 1;                  // current floor (start with ground floor)
+    private boolean going_up = true;                // direction of travel (going up)
+    private int n_passengers;                       // number of passengers in the elevator
+    private int [] stop_requested_n = new int[7];   // array for number of passenger destined for that floor
+    private Building building;                      // building
 
     /* CONSTRUCTOR */
     public Elevator(Building building)
@@ -32,8 +20,7 @@ public class Elevator
     // define move() method that modifies elevator's state
     public void move()
     {
-        // modify current floor
-        // move up or down
+        // modify current floor (go up or down)
         if (going_up)
         {
             current_floor++;
@@ -44,29 +31,38 @@ public class Elevator
         }
 
         // modify direction of travel
-        // if top floor, has to go down
-        if (current_floor == FLOORS)
+        if (current_floor == building.getFloors())
         {
-            going_up = false;
+            going_up = false;                       // if top floor, has to go down)
         }
-        // if ground floor, has to go up
-        else if (current_floor == 1)
+        else if (current_floor == 1)                // if ground floor, has to go up
         {
             going_up = true;
         }
 
         // unload passenger
         unloadPassenger(current_floor);
+
+        // check if there is incoming passenger
+
     }
 
     // define boardPassenger(int floor) which adds a passenger destined for the indicated floor
     public void boardPassenger(int destinationFloorNumber) throws ElevatorFullException
     {
-        // update stop_requested_n array (add one)
-        stop_requested_n[destinationFloorNumber - 1]++;
+        // check if elevator is full, throw exception
+        if (n_passengers == CAPACITY)
+        {
+            throw new ElevatorFullException();
+        }
+        else
+        {
+            // update stop_requested_n array (add one)
+            stop_requested_n[destinationFloorNumber - 1]++;
 
-        // update n_passengers
-        n_passengers++;
+            // update n_passengers
+            n_passengers++;
+        }
     }
 
     // define unloadPassenger() which let passenger(s) destined for that floor out
@@ -101,7 +97,4 @@ public class Elevator
         return "Floor " + Integer.toString(current_floor) + ": " + Integer.toString(n_passengers) + " passengers";
     }
 
-    public static void main(String argv[])
-    {
-    }
 }

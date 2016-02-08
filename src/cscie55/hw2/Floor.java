@@ -1,18 +1,11 @@
 package cscie55.hw2;
 
-import cscie55.hw2.Building;
-
 public class Floor
 {
     /* FIELDS */
-    // define floor number
-    private int floorNumber;
-
-    // define number of passenger waiting
-    private int n_waiting;
-
-    // define which building
-    private Building building = new Building();
+    private int floorNumber;                        // floor number
+    private int n_waiting;                          // number of passenger waiting
+    private Building building;                      // building
 
     /* CONSTRUCTOR */
     public Floor(Building building, int floorNumber)
@@ -29,11 +22,16 @@ public class Floor
     }
 
     // passenger call elevator
-    void waitForElevator()
+    public void waitForElevator()
     {
         // change number of passenger waiting
         n_waiting++;
 
         //
+
+        // if (n_waiting > 0) ********************
+        {
+
+        }
     }
 }

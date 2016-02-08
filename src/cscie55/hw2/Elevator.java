@@ -1,10 +1,13 @@
-package cscie55.hw1.elevator;
+package cscie55.hw2;
 
 public class Elevator
 {
     /* FIELDS */
     // define a constant for the number of floors
     public static final int FLOORS = 7;
+
+    // define elevator capacity
+    public static final int CAPACITY = 10;
 
     // define current floor (start with ground floor) and direction of travel (going up)
     private int current_floor = 1;
@@ -16,9 +19,13 @@ public class Elevator
     // define array for number of passenger destined for that floor
     private int [] stop_requested_n = new int[7];
 
+    // define which building
+    private Building building = new Building();
+
     /* CONSTRUCTOR */
-    public Elevator()
+    public Elevator(Building building)
     {
+        this.building = building;
     }
 
     /* METHODS */
@@ -53,10 +60,10 @@ public class Elevator
     }
 
     // define boardPassenger(int floor) which adds a passenger destined for the indicated floor
-    public void boardPassenger(int floor)
+    public void boardPassenger(int destinationFloorNumber) throws ElevatorFullException
     {
         // update stop_requested_n array (add one)
-        stop_requested_n[floor - 1]++;
+        stop_requested_n[destinationFloorNumber - 1]++;
 
         // update n_passengers
         n_passengers++;
@@ -75,9 +82,26 @@ public class Elevator
         n_passengers = n_passengers - passenger_out;
     }
 
+    // define currentFloor() to return floor number
+    public int currentFloor()
+    {
+        return current_floor;
+    }
+
+    // define passengers() to return number of passengers in elevator
+    public int passengers()
+    {
+        return n_passengers;
+    }
+
+
     // define toString() that indicates the number of passengers on board and current floor
     public String toString()
     {
         return "Floor " + Integer.toString(current_floor) + ": " + Integer.toString(n_passengers) + " passengers";
+    }
+
+    public static void main(String argv[])
+    {
     }
 }

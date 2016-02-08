@@ -2,11 +2,7 @@ package cscie55.hw1.elevatortest;
 
 import cscie55.hw1.elevator.Elevator;
 
-/**
- * Created by pipat on 1/30/16.
- */
 public class ElevatorTest {
-
 
     public static void main(String argv[])
     {
@@ -28,7 +24,5 @@ public class ElevatorTest {
             elevator.move();
             System.out.println(elevator.toString());
         }
-
     }
-
 }

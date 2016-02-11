@@ -68,6 +68,13 @@ public class Elevator
     // define toString() that indicates the number of passengers on board and current floor
     public String toString()
     {
-        return "Floor " + Integer.toString(currentFloor) + ": " + Integer.toString(nPassengers) + " passengers";
+        if (nPassengers == 1)
+        {
+            return "Floor " + Integer.toString(currentFloor) + ": " + Integer.toString(nPassengers) + " passenger";
+        }
+        else
+        {
+            return "Floor " + Integer.toString(currentFloor) + ": " + Integer.toString(nPassengers) + " passengers";
+        }
     }
 }

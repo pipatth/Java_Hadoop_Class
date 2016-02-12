@@ -2,7 +2,10 @@
   <artifact type="jar" name="hw1:jar">
     <output-path>$PROJECT_DIR$/Out/artifacts/hw1_jar</output-path>
     <root id="archive" name="hw1.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/hw1/overview.txt" />
       <element id="module-output" name="hw1" />
+      <element id="dir-copy" path="$PROJECT_DIR$/hw1" />
+      <element id="file-copy" path="$PROJECT_DIR$/hw1/sampleoutput.txt" />
     </root>
   </artifact>
 </component>

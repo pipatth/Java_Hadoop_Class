@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Java_Hadoop_Class.iml" filepath="$PROJECT_DIR$/Java_Hadoop_Class.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw1/hw1.iml" filepath="$PROJECT_DIR$/hw1/hw1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw2/hw2.iml" filepath="$PROJECT_DIR$/hw2/hw2.iml" />
     </modules>
   </component>
 </project>

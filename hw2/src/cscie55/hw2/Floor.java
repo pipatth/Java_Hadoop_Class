@@ -4,7 +4,7 @@ public class Floor
 {
     /* FIELDS */
     private int floorNumber;                        // floor number
-    private int nWaiting;                          // number of passenger waiting
+    private int nWaiting;                           // number of passenger waiting
     private Building building;                      // building
 
     /* CONSTRUCTOR */
@@ -15,6 +15,7 @@ public class Floor
     }
 
     /* METHODS */
+
     // return number of passengers who are waiting at that floor
     public int passengersWaiting()
     {
@@ -26,12 +27,15 @@ public class Floor
     {
         // change number of passenger waiting
         nWaiting++;
+    }
 
-        //
-
-        // if (nWaiting > 0) ********************
+    // passenger leave the floor (get in to elevator)
+    public void leaveFloor()
+    {
+        // change number of passenger waiting
+        if (nWaiting > 0)
         {
-
+            nWaiting--;
         }
     }
 }

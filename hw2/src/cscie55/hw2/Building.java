@@ -5,7 +5,7 @@ public class Building
     /* FIELDS */
     public static final int FLOORS = 7;             // number of floors
     public Elevator elevator;                       // elevator
-    public Floor [] floors = new Floor[FLOORS];      // arrays of floors
+    public Floor [] floors = new Floor[FLOORS];     // arrays of floors
 
     /* CONSTRUCTOR */
     // create Elevator and multiple floors
@@ -17,6 +17,7 @@ public class Building
     }
 
     /* METHODS */
+
     // return elevator object
     public Elevator elevator()
     {
@@ -29,9 +30,4 @@ public class Building
         return floors[floorNumber - 1];
     }
 
-    // FLOORS getter
-    public int getFloors()
-    {
-        return FLOORS;
-    }
 }

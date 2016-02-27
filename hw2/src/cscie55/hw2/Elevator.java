@@ -43,18 +43,16 @@ public class Elevator
         // board passenger
         Floor cfloor = building.floors[currentFloor - 1];
         int waiting = cfloor.passengersWaiting();
-        if (waiting > 0) {
-            while (waiting > 0)
-            {
-                try {
-                    boardPassenger(1);
-                    cfloor.leaveFloor();
-                    waiting--;
-                }
-                catch (ElevatorFullException elevatorFullException) {
-                    System.out.println(elevatorFullException);
-                    break;
-                }
+        while (waiting > 0)
+        {
+            try {
+                boardPassenger(1);
+                cfloor.leaveFloor();
+                waiting--;
+            }
+            catch (ElevatorFullException elevatorFullException) {
+                System.out.println(elevatorFullException);
+                break;
             }
         }
     }

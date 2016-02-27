@@ -34,7 +34,7 @@ public class Floor
     }
 
     // passenger leave the floor (get in to elevator)
-    public void leaveFloor()
+    protected void leaveFloor()
     {
         // change number of passenger waiting
         if (nWaiting > 0)

@@ -1,0 +1,17 @@
+Overview:
+
+
+
+This homework is about implementing a Java class to create basic functionalities of an elevator. I started tackling this assignment by going through the requirements. I know from the requirements that I need one implementation class and one test class with a main method to run the test.
+
+Although Elevator class require only move(), boardPassenger(int floor), and toString() methods, I need to add another method to unload passengers to complete the test. Otherwise, it is impossible to get three passengers in ElevatorTest to get out at the 3rd and 5th floor.
+
+Assumptions made:
+
+I assume that in the ElevatorTest.java, the elevator object is created on the 1st floor and all passengers board the elevator on the 1st floor.
+
+Execution:
+
+I started by writing ElevatorTest.java first. This is to understand how I want the implementation to behave. The test is quite straightforward. I assumed that the elevator object is first created on the 1st floor. Then, passengers get into the elevator with the floors that they want to go (calling boardPassenger() method three times). After that, I wrote a loop to call move() method and print out the results using toString() method. To move the elevator up to the top floor and back, the loop executed n * 2 - 1 where n = number of floors.
+
+Then, I wrote the implementation file Elevator.java. The requirements are clear. I started by dividing the class into three parts (i.e. fields, constructor, and methods). Then, I put in all the fields I need. I made every field except FLOORS private because other classes should not be able to set these fields. Another method that I added is unloadPassenger(int floor).

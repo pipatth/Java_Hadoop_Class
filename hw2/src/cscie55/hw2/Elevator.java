@@ -7,13 +7,14 @@ public class Elevator
     private int currentFloor = 1;                           // current floor (start with ground floor)
     private boolean goingUp = true;                         // direction of travel (going up)
     private int nPassengers;                                // number of passengers in the elevator
-    private int [] stopRequested = new int[7];              // array for number of passenger destined for that floor
+    private int [] stopRequested;                           // array for number of passenger destined for that floor
     private Building building;                              // building
 
     /* CONSTRUCTOR */
     public Elevator(Building building)
     {
         this.building = building;
+        this.stopRequested = new int[this.building.FLOORS]; // get number of floors from building
     }
 
     /* METHODS */
@@ -30,8 +31,8 @@ public class Elevator
 
         // modify direction of travel
         if (currentFloor == building.FLOORS) {
-            goingUp = false;                       // if top floor, has to go down)
-        } else if (currentFloor == 1)                // if ground floor, has to go up
+            goingUp = false;                        // if top floor, has to go down)
+        } else if (currentFloor == 1)               // if ground floor, has to go up
         {
             goingUp = true;
         }

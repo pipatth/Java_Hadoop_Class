@@ -27,6 +27,10 @@ public class Floor
     {
         // change number of passenger waiting
         nWaiting++;
+
+        // call an elevator
+        building.elevator.callElevator(floorNumber);
+
     }
 
     // passenger leave the floor (get in to elevator)

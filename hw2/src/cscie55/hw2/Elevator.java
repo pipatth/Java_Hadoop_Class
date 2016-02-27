@@ -8,6 +8,7 @@ public class Elevator
     private boolean goingUp = true;                         // direction of travel (going up)
     private int nPassengers;                                // number of passengers in the elevator
     private int [] stopRequested;                           // array for number of passenger destined for that floor
+    private boolean [] stopBool;                            // array to keep track of stop
     private Building building;                              // building
 
     /* CONSTRUCTOR */
@@ -15,6 +16,7 @@ public class Elevator
     {
         this.building = building;
         this.stopRequested = new int[this.building.FLOORS]; // get number of floors from building
+        this.stopBool = new boolean[this.building.FLOORS];  // create stopBool array
     }
 
     /* METHODS */
@@ -37,26 +39,30 @@ public class Elevator
             goingUp = true;
         }
 
-        // unload passenger
-        unloadPassenger(currentFloor);
-
-        // board passenger
-        Floor cfloor = building.floors[currentFloor - 1];
-        int waiting = cfloor.passengersWaiting();
-        while (waiting > 0)
+        // unload and board passenger if needed
+        if (stopBool[currentFloor - 1])             // if stopBool is true, then unloadPassenger and boardPassenger
         {
-            try {
-                boardPassenger(1);
-                cfloor.leaveFloor();
-                waiting--;
-            }
-            catch (ElevatorFullException elevatorFullException) {
-                System.out.println(elevatorFullException);
-                break;
+            // unload passenger
+            unloadPassenger(currentFloor);
+
+            // board passenger if not full
+            Floor cfloor = building.floors[currentFloor - 1];
+            int i = cfloor.passengersWaiting();
+            while (i > 0)
+            {
+                try {
+                    boardPassenger(1);              // passenger goes to 1st floor
+                    cfloor.leaveFloor();            // passenger leave floor
+                    i--;
+                }
+                catch (ElevatorFullException elevatorFullException) {
+                    System.out.println(elevatorFullException);
+                    stopBool[currentFloor - 1] = true;  // if elevator is full, then need to come back
+                    break;
+                }
             }
         }
     }
-
 
     // define boardPassenger(int floor) which adds a passenger destined for the indicated floor
     public void boardPassenger(int destinationFloorNumber) throws ElevatorFullException
@@ -72,9 +78,19 @@ public class Elevator
             // update stopRequested array (add one)
             stopRequested[destinationFloorNumber - 1]++;
 
+            // update stopBool array (true)
+            stopBool[destinationFloorNumber - 1] = true;
+
             // update nPassengers
             nPassengers++;
         }
+    }
+
+    // define callElevator() which let passenger call for elevator
+    public void callElevator(int floor)
+    {
+        // update stopBool array (true)
+        stopBool[floor - 1] = true;
     }
 
     // define currentFloor() to return floor number
@@ -89,13 +105,11 @@ public class Elevator
         return nPassengers;
     }
 
-
     // define toString() that indicates the number of passengers on board and current floor
     public String toString()
     {
         return "Floor " + Integer.toString(currentFloor) + ": " + Integer.toString(nPassengers) + " passengers";
     }
-
 
     // define unloadPassenger() which let passenger(s) destined for that floor out
     private void unloadPassenger(int floor)
@@ -106,10 +120,11 @@ public class Elevator
         // update stopRequested array (reset to zero)
         stopRequested[floor - 1] = 0;
 
+        // update stopBool array (reset to false)
+        stopBool[floor - 1] = false;
+
         // update nPassengers
         nPassengers = nPassengers - passenger_out;
     }
-
-
 
 }

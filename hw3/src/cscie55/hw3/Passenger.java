@@ -1,21 +1,20 @@
 package cscie55.hw3;
 
-public class Passenger {
+import java.util.Comparator;
+
+public class Passenger implements Comparable<Passenger> {
 
     /* FIELDS */
     public static final int UNDEFINED_FLOOR = -1;               // undefined floor
     private int currentFloor = 1;                               // current floor of passenger
     private int destinationFloor = UNDEFINED_FLOOR;             // floor that passenger wants to go to
-    //private Building building;                                  // building
     private int id;                                             // passenger id
 
 
     /* CONSTRUCTOR */
-    public Passenger (int id)
+    public Passenger (int i)
     {
-        this.id = id;
-
-
+        id = i;
     }
 
 
@@ -45,16 +44,23 @@ public class Passenger {
         currentFloor = UNDEFINED_FLOOR;
     }
 
-    // setter when elevator arrives at destination
+    // setter arrive() when elevator arrives at destination
     public void arrive()
     {
         currentFloor = destinationFloor;                        // set current floor to the destination
         destinationFloor = UNDEFINED_FLOOR;                     // set destination to undefined
     }
 
-    // define toString() that indicates currentFloor and destinationFloor
+    // getter toString() indicates currentFloor and destinationFloor
     public String toString()
     {
-        return "Current Floor = " + Integer.toString(currentFloor) + ", Destination Floor = " + Integer.toString(destinationFloor);
+        return "id = " + Integer.toString(id) + ", Curr. Floor = " + Integer.toString(currentFloor) + ", Dest. Floor = " + Integer.toString(destinationFloor);
+    }
+
+    // Compare id
+    @Override
+    public int compareTo(Passenger p)
+    {
+        return Integer.compare(id, p.id);
     }
 }

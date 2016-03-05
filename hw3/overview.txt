@@ -1,0 +1,42 @@
+Title       : HW#3
+Author      : Pipat Thontirawong
+Date        : 3/13/2016
+
+Overview
+
+Purpose:
+This homework is an expansion of the first and second homeworks. In this project, I need to implement one new class,
+passenger. This passenger object should impersonate a person walking into the building and calling an elevator. The
+main task is to create a communication between 'passenger', 'floor', and 'elevator'.
+
+
+Goals:
+From the test code, the elevator must be able to (1) unload passengers at the right floor, (2) board passenger when
+calling to the floor, and (3) handle the situation when the elevator is full.
+
+
+Execution Plan:
+My execution plan still starts with analyzing the test code and see how to build an implementation to pass the test.
+I noticed from the requirements that I had to build new fields and consider which data structures to use in
+Passenger, Floor, and Elevator classes.
+
+I then began adding few easy requirements to and ran the first test. The code passed motion() test but failed on
+other tests. My next step was to add data structure that is suitable for the project. I considered few designs, but I
+ chose 'HashSet' to store passenger data.
+
+Three hashsets were created. One for Elevator (to store passengers who are in the elevator). Three for Floor (to store
+passengers who wants to go up, go down, and go nowhere). Then I wrote methods in those three classes to update these
+hashsets. I implemented an iterator to board passengers and alert if there are too many people.
+
+The hashset structure works fine and passing all tests except the capacity test. This is because the iterator for
+hashset is not ordered. I changed the data structure to treeset to accommodate this need. However, I ran into another
+ problem because treeset requires the Passenger class to be comparable. As a result, I add comparable interface to
+the Passenger class. Then the code passed all tests.
+
+
+
+
+
+
+
+

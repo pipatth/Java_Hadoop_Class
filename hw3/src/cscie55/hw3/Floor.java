@@ -2,41 +2,54 @@ package cscie55.hw3;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Floor
 {
     /* FIELDS */
     private int floorNumber;                        // floor number
-    private int nWaiting;                           // number of passenger waiting
-    private Set<Passenger> floorPassengerSet;       // set of passenger on the floor
+    private Set<Passenger> passGoingUp;
+    private Set<Passenger> passGoingDown;
+    private Set<Passenger> passResident;
     private Building building;                      // building
 
 
     /* CONSTRUCTOR */
-    public Floor(Building building, int floorNumber)
+    public Floor(Building bldg, int flr)
     {
-        this.building = building;
-        this.floorNumber = floorNumber;
-        this.floorPassengerSet = new HashSet<Passenger>();
+        building = bldg;
+        floorNumber = flr;
+        passGoingUp = new TreeSet<Passenger>();
+        passGoingDown = new TreeSet<Passenger>();
+        passResident = new TreeSet<Passenger>();
     }
 
 
     /* PUBLIC METHODS */
 
-    // return number of passengers who are waiting at that floor ***
-    private int passengersWaiting()
-    {
-        return nWaiting;
-    }
-
-    // passenger call elevator ***
+    // method for passenger to call elevator
     public void waitForElevator(Passenger passenger, int destinationFloor)
     {
+        // change destination floor in passenger
+        passenger.waitForElevator(destinationFloor);
 
-
-
-        // change number of passenger waiting
-        nWaiting++;
+        // modify sets if passenger is on the floor and going somewhere
+        if (passenger.currentFloor() == floorNumber & passenger.destinationFloor() != passenger.UNDEFINED_FLOOR)
+        {
+            // going up
+            if (passenger.destinationFloor() > floorNumber)
+            {
+                passGoingUp.add(passenger);
+                passResident.remove(passenger);
+            }
+            // going down
+            else if (passenger.destinationFloor() < floorNumber)
+            {
+                passGoingDown.add(passenger);
+                passResident.remove(passenger);
+            }
+            // else the passenger might have currentFloor = destinationFloor, then do nothing
+        }
 
         // call an elevator
         building.elevator.callElevator(floorNumber);
@@ -57,30 +70,24 @@ public class Floor
         }
     }
 
-    // add passenger to resident of ground floor
+    // setter to add passenger to resident of ground floor
     public void enterGroundFloor(Passenger passenger)
     {
-        // add passenger to floorPassengerSet on ground floor
-        building.floors[0].floorPassengerSet.add(passenger);
+        // add passenger to ground floor's resident set
+        building.floors[0].passResident.add(passenger);
     }
 
-
-    // passenger leave the floor (get in to elevator)
-    protected void leaveFloor()
+    // getter for passGoingUp (if passenger wants to go up)
+    public Set<Passenger> getPassGoingUp()
     {
-        // change number of passenger waiting
-        if (nWaiting > 0)
-        {
-            nWaiting--;
-        }
-
-        // remove passenger from set
-
+        return passGoingUp;
     }
 
-
-    /* PRIVATE METHODS */
-
+    // getter for passGoingDown (if passenger wants to go up)
+    public Set<Passenger> getPassGoingDown()
+    {
+        return passGoingDown;
+    }
 
 
 }

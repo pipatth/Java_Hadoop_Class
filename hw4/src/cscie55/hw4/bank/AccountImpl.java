@@ -22,34 +22,51 @@ public class AccountImpl implements Account
     /* PUBLIC METHODS */
 
     // getter for id
+    @Override
     public int id()
     {
         return id;
     }
 
     // getter for balance
+    @Override
     public long balance()
     {
         return balance;
     }
 
     // method to deposit
+    @Override
     public void deposit(long amount)
     {
-        balance = balance + amount;
+        // throw exception if amount <= 0
+        if (amount <= 0)
+        {
+            throw new IllegalArgumentException("Cannot deposit negative or zero amount");
+        }
+        else
+        {
+            balance += amount;
+        }
     }
 
     // method to withdraw
+    @Override
     public void withdraw(long amount) throws InsufficientFundsException
     {
+        // throw exception if amount <= 0
+        if (amount <= 0)
+        {
+            throw new IllegalArgumentException("Cannot withdraw negative or zero amount");
+        }
         // throw exception if amount > balance
-        if (amount > balance)
+        else if (amount > balance)
         {
             throw new InsufficientFundsException(this, amount);
         }
         else
         {
-            balance = balance - amount;
+            balance -= amount;
         }
     }
 }

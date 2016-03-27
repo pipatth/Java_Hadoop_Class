@@ -9,8 +9,8 @@ import java.util.Map;
 public class BankImpl implements Bank
 {
     /* FIELDS */
-    private Map<Integer, Account> accounts;                    // map of accounts
-
+    private Map<Integer, Account> accounts;                 // map of account ids and accounts
+//    private static Object lock = new Object();              // lock
 
     /* CONSTRUCTOR */
     public BankImpl()
@@ -22,7 +22,6 @@ public class BankImpl implements Bank
     /* PUBLIC METHODS */
 
     // method to add new account to list
-    @Override
     public void addAccount(Account account) throws DuplicateAccountException
     {
         // throw exception if account number exists
@@ -38,13 +37,16 @@ public class BankImpl implements Bank
     }
 
     // method to transfer without locking
-    @Override
     public void transferWithoutLocking(int fromId, int toId, long amount) throws InsufficientFundsException
     {
         // throw exception if account number is invalid
         if (!accounts.containsKey(fromId) || !accounts.containsKey(toId))
         {
             throw new IllegalArgumentException("Account number is invalid");
+        }
+        else if (fromId == toId)
+        {
+            throw new IllegalArgumentException("Cannot transfer to the same account");
         }
         else
         {
@@ -56,29 +58,93 @@ public class BankImpl implements Bank
             try {
                 accFrom.withdraw(amount);
             } catch (InsufficientFundsException insufficientFundsException) {
-                System.out.println(insufficientFundsException);
                 return;
             }
             accTo.deposit(amount);
         }
     }
 
-    // method to transfer with locking all bank accounts *****
-    @Override
+    // method to transfer with locking all bank accounts
     public void transferLockingBank(int fromId, int toId, long amount) throws InsufficientFundsException
     {
+        // this synchronize the transfer (locking all accounts to one transfer transaction at a time)
+        synchronized (accounts)
+        {
+            // throw exception if account number is invalid
+            if (!accounts.containsKey(fromId) || !accounts.containsKey(toId))
+            {
+                throw new IllegalArgumentException("Account number is invalid");
+            }
+            else if (fromId == toId)
+            {
+                throw new IllegalArgumentException("Cannot transfer to the same account");
+            }
+            else
+            {
+                // transfer after locking all accounts
+                Account accFrom = accounts.get(fromId);
+                Account accTo = accounts.get(toId);
 
+                // transfer only when there is a sufficient fund in source account
+                try {
+                    accFrom.withdraw(amount);
+                } catch (InsufficientFundsException insufficientFundsException) {
+                    return;
+                }
+                accTo.deposit(amount);
+            }
+        }
     }
 
-    // method to transfer with locking two accounts *****
-    @Override
+    // method to transfer with locking two accounts
     public void transferLockingAccounts(int fromId, int toId, long amount) throws InsufficientFundsException
     {
+        // throw exception if account number is invalid
+        if (!accounts.containsKey(fromId) || !accounts.containsKey(toId))
+        {
+            throw new IllegalArgumentException("Account number is invalid");
+        }
+        else if (fromId == toId)
+        {
+            throw new IllegalArgumentException("Cannot transfer to the same account");
+        }
+        else {
+            // transfer after locking accounts
+            Account accFrom = accounts.get(fromId);
+            Account accTo = accounts.get(toId);
+            Account firstLock;
+            Account secondLock;
 
+            // create sequence of locks
+            if (fromId < toId)
+            {
+                firstLock = accFrom;
+                secondLock = accTo;
+            }
+            else
+            {
+                firstLock = accTo;
+                secondLock = accFrom;
+            }
+
+            // synchronize two accounts that involves in the transaction, locking account according to sequence
+            synchronized (firstLock)
+            {
+                synchronized (secondLock)
+                {
+                    // transfer only when there is a sufficient fund in source account
+                    try {
+                        accFrom.withdraw(amount);
+                    } catch (InsufficientFundsException insufficientFundsException) {
+                        return;
+                    }
+                    accTo.deposit(amount);
+                }
+            }
+        }
     }
 
     // getter for sum of balances
-    @Override
     public long totalBalances()
     {
         long total = 0;
@@ -90,7 +156,6 @@ public class BankImpl implements Bank
     }
 
     // getter for array list size
-    @Override
     public int numberOfAccounts()
     {
         return accounts.size();

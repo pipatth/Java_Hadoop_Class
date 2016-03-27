@@ -22,21 +22,18 @@ public class AccountImpl implements Account
     /* PUBLIC METHODS */
 
     // getter for id
-    @Override
     public int id()
     {
         return id;
     }
 
     // getter for balance
-    @Override
     public long balance()
     {
         return balance;
     }
 
     // method to deposit
-    @Override
     public void deposit(long amount)
     {
         // throw exception if amount <= 0
@@ -51,7 +48,6 @@ public class AccountImpl implements Account
     }
 
     // method to withdraw
-    @Override
     public void withdraw(long amount) throws InsufficientFundsException
     {
         // throw exception if amount <= 0

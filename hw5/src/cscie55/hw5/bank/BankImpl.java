@@ -10,7 +10,6 @@ public class BankImpl implements Bank
 {
     /* FIELDS */
     private Map<Integer, Account> accounts;                 // map of account ids and accounts
-//    private static Object lock = new Object();              // lock
 
     /* CONSTRUCTOR */
     public BankImpl()
@@ -22,6 +21,7 @@ public class BankImpl implements Bank
     /* PUBLIC METHODS */
 
     // method to add new account to list
+    @Override
     public void addAccount(Account account) throws DuplicateAccountException
     {
         // throw exception if account number exists
@@ -37,6 +37,7 @@ public class BankImpl implements Bank
     }
 
     // method to transfer with locking two accounts
+    @Override
     public void transfer(int fromId, int toId, long amount) throws InsufficientFundsException
     {
         // throw exception if account number is invalid
@@ -85,6 +86,7 @@ public class BankImpl implements Bank
     }
 
     // method to deposit
+    @Override
     public void deposit(int accountId, long amount)
     {
         // throw exception if account number is invalid
@@ -100,6 +102,7 @@ public class BankImpl implements Bank
     }
 
     // getter for sum of balances
+    @Override
     public long totalBalances()
     {
         long total = 0;

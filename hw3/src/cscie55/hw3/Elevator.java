@@ -21,7 +21,7 @@ public class Elevator {
         building = bldg;
         stopRequested = new int[bldg.FLOORS]; // get number of floors from building
         stopBool = new boolean[bldg.FLOORS];  // create stopBool array
-        passElevator = new TreeSet<Passenger>();       // create passElevator
+        passElevator = new HashSet<Passenger>();       // create passElevator
     }
 
 

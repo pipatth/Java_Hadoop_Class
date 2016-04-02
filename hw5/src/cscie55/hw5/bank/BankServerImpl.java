@@ -1,8 +1,7 @@
 package cscie55.hw5.bank;
 
 import cscie55.hw5.bank.command.Command;
-import java.util.ArrayList;
-import java.util.HashMap;
+import cscie55.hw5.bank.command.CommandStop;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -12,15 +11,31 @@ import java.util.Queue;
 public class BankServerImpl implements BankServer
 {
     /* FIELDS */
-    public Queue<Command> commandQueue;                                 // queue containing commands to be execute
-    public ArrayList<CommandExecutionThread> commandExecutionThreads;   // array of threads
+    private Queue<Command> commandQueue;                                     // queue containing commands to be execute
+    public CommandExecutionThread [] commandExecutionThreads;               // array of threads
+    private Bank bank;
+    private int nThreads;
 
 
     /* CONSTRUCTOR */
-    public BankServerImpl()
+    public BankServerImpl(Bank bank, int nThreads, boolean executeCommandInsideMonitor)
     {
         commandQueue = new LinkedList<Command>();                           // create commandQueue using linkedlist
-        commandExecutionThreads = new ArrayList<CommandExecutionThread>();  // create array of threads
+        commandExecutionThreads = new CommandExecutionThread[nThreads];     // create array of threads
+        this.bank = bank;                                                   // bank
+        this.nThreads = nThreads;
+
+        // add new commandExecutionThreads into array
+        for (int i = 0; i < nThreads; i++)
+        {
+            commandExecutionThreads[i] = new CommandExecutionThread(bank, commandQueue, executeCommandInsideMonitor);
+        }
+
+        // start threads
+        for (CommandExecutionThread thread : commandExecutionThreads)
+        {
+            thread.start();
+        }
     }
 
 
@@ -30,20 +45,37 @@ public class BankServerImpl implements BankServer
     @Override
     public void execute(Command command)
     {
-        commandQueue.add(command);
+        synchronized (commandQueue)
+        {
+            commandQueue.add(command);                                      // add command to queue
+            commandQueue.notifyAll();                                       // notify that command is added to queue
+        }
     }
 
     // method to stop bankserver
     @Override
     public void stop() throws InterruptedException
     {
+        synchronized (commandQueue)
+        {
+            for (int i = 0; i < nThreads; i++)
+            {
+                commandQueue.add(new CommandStop());                        // add stop command to queue
+            }
+            commandQueue.notifyAll();                                       // notify that stop is added to queue
+        }
 
+        // join thread
+        for (CommandExecutionThread thread : commandExecutionThreads)
+        {
+            thread.join();
+        }
     }
 
     // getter for sum of balances (execute Bank.totalBalances())
     @Override
     public long totalBalances()
     {
-
+        return bank.totalBalances();
     }
 }

@@ -29,69 +29,38 @@ public class CommandExecutionThread extends Thread
     @Override
     public void run()
     {
-        while (true)
-        {
-            Command cmd;
-            do {
-                synchronized (commandQueue)
-                {
-                    cmd = commandQueue.poll();
-                    if (cmd == null)
-                    {
-                        try {
-                            commandQueue.wait();
-                        } catch (InterruptedException e) { }
+        Command command;
+        while (true) {
+
+            // execute inside synchronized block
+            synchronized (commandQueue) {
+                while (commandQueue.isEmpty()) {
+                    try {
+                        commandQueue.wait();
+                    } catch (InterruptedException e) {
                     }
                 }
-            } while (cmd == null);
+                command = commandQueue.remove();                // acquire queue when someone puts something on it
 
-            if (cmd.isStop())
-            {
-                break;
+                if (command.isStop()) {                         // if command is not stop(), executing until get stop()
+                    break;
+                }
+
+                if (executeCommandInsideMonitor) {
+                    try {
+                        command.execute(bank);
+                    } catch (InsufficientFundsException e) {
+                    }
+                }
             }
 
-            try {
-                if (executeCommandInsideMonitor)
-                {
-                    synchronized (commandQueue)
-                    {
-                        cmd.execute(bank);
-                    }
+            // execute outside synchronized block
+            if (!executeCommandInsideMonitor) {
+                try {
+                    command.execute(bank);
+                } catch (InsufficientFundsException e) {
                 }
-                else
-                {
-                    cmd.execute(bank);
-                }
-            } catch (InsufficientFundsException e) { }
+            }
         }
-
-
-
-//        synchronized (commandQueue)
-//        {
-//            // if queue is empty, surrender the monitor
-//            while (commandQueue.isEmpty())
-//            {
-//                try {
-//                    // acquire queue when someone puts something on it
-//                    commandQueue.wait();
-//                } catch (InterruptedException e) { }
-//            }
-//
-//            // if queue is not empty, executing until get stop()
-//            for (Command command : commandQueue)
-//            {
-//                if (command.isStop())                       // catch a stop command
-//                {
-//                    break;
-//                }
-//                else                                        // else keep execute command
-//                {
-//                    try {
-//                        command.execute(bank);
-//                    } catch (InsufficientFundsException e) { }
-//                }
-//            }
-//        }
     }
 }

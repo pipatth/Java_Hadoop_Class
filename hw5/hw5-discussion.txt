@@ -1,0 +1,5 @@
+Performance discussion:
+
+Execution inside the synchronized queue is much slower (~0.8 per ms) because we added another lock to the process
+(only one thread can access the queue at a time). This additional lock reduces the processing speed from 3.8 txns/ms
+to 0.8 txns/ms or about 5 times slower.

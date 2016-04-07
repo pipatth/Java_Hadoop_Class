@@ -1,0 +1,8 @@
+pipat@pipat-hp:~/Projects/Java_Hadoop_Class/hw5/out$ java -classpath ./production/hw5:./test/hw5:/home/pipat/Applications/idea-IU-145.258.11/lib/junit-4.12.jar:/home/pipat/Applications/idea-IU-145.258.11/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore cscie55.hw5.Tester
+JUnit version 4.12
+...Command INSIDE monitor:  0.776776 txns/msec
+Command OUTSIDE monitor: 3.798112 txns/msec
+
+Time: 34.024
+
+OK (3 tests)

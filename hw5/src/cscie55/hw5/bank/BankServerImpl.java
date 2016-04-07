@@ -45,27 +45,27 @@ public class BankServerImpl implements BankServer
     @Override
     public void execute(Command command)
     {
-        synchronized (commandQueue)
+        synchronized (commandQueue)                                         // synchronized queue in every transaction
         {
             commandQueue.add(command);                                      // add command to queue
             commandQueue.notifyAll();                                       // notify that command is added to queue
         }
     }
 
-    // method to stop bankserver
+    // method to stop bankserver (add stop() command to queue)
     @Override
     public void stop() throws InterruptedException
     {
-        synchronized (commandQueue)
+        synchronized (commandQueue)                                         // synchronized queue in every transaction
         {
             for (int i = 0; i < nThreads; i++)
             {
-                commandQueue.add(new CommandStop());                        // add stop command to queue
+                commandQueue.add(new CommandStop());                        // add stop command to queue for all threads
             }
             commandQueue.notifyAll();                                       // notify that stop is added to queue
         }
 
-        // join thread
+        // join threads
         for (CommandExecutionThread thread : commandExecutionThreads)
         {
             thread.join();
